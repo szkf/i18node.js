@@ -1,0 +1,28 @@
+{
+  "name": "i18nodejs",
+  "version": "1.0.0",
+  "description": "Lightweight Internationalization Module for Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/szkf/i18node.js.git"
+  },
+  "keywords": [
+    "i18n",
+    "i18node",
+    "i18nodejs",
+    "i18node.js"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/szkf/i18node.js/issues"
+  },
+  "homepage": "https://github.com/szkf/i18node.js#readme",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}
