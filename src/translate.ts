@@ -5,7 +5,7 @@ const getJSON = (directory: string) => {
 }
 
 const writeJSON = (directory: string, data: Object) => {
-    fs.writeFileSync(directory, JSON.stringify(data), 'utf-8')
+    fs.writeFileSync(directory, JSON.stringify(data, null, 4), 'utf-8')
 }
 
 export const transtale = (locales: string[], directory: string | undefined, message: string) => {
