@@ -3,10 +3,10 @@ import { transtale } from './translate'
 import { i18ndata } from './types'
 
 export class I18Node {
-    locales: string[] = ['en', 'en']
-    directory: string | undefined = undefined
+    locales: [string, string] = ['en', 'en']
+    directory: string = '../../../locales'
 
-    constructor(data: i18ndata) {
+    constructor(data: i18ndata = { locales: ['en', 'en'], directory: '../../../locales' }) {
         if (data != undefined) this.config(data)
     }
 
@@ -14,7 +14,7 @@ export class I18Node {
         if (data.locales == undefined) console.warn('\x1b[33mNo locales specified\x1b[0m - defaults to ["en", "en"]')
         if (data.directory == undefined) throw new Error('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
 
-        this.locales = data.locales
+        if (data.locales != undefined) this.locales = data.locales
         this.directory = data.directory
 
         if (this.directory == undefined || !fs.existsSync(this.directory)) throw new Error(`'\x1b[31m'Directory ${this.directory} not found'\x1b[0m'`)
