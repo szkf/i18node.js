@@ -1,5 +1,6 @@
-import { I18Node } from './i18n'
+import { I18Node as I18N } from './i18n'
 
-var i18node = new I18Node()
-module.exports = i18node
-module.exports.I18Node = I18Node
+export const I18Node = I18N
+
+const i18node = new I18N()
+export default i18node
