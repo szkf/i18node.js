@@ -25,7 +25,7 @@ export class I18Node {
         if (!fs.existsSync(this.directory + `/${this.locales[1]}.json`)) fs.appendFileSync(this.directory + `/${this.locales[1]}.json`, '{}')
     }
 
-    t = (message: string) => {
-        return transtale(this.locales, this.directory, message)
+    t = (message: string, values: any = {}) => {
+        return transtale(this.locales, this.directory, message, values)
     }
 }
