@@ -8,7 +8,7 @@ const writeJSON = (directory: string, data: Object) => {
     fs.writeFileSync(directory, JSON.stringify(data, null, 4), 'utf-8')
 }
 
-export const transtale = (locales: string[], directory: string | undefined, message: string, values: any = {}) => {
+export const transtale = (locales: string[], directory: string | undefined, message: string, values: any = {}, warnMissingTranslations: boolean) => {
     const fromLangPath: string = directory + `/${locales[0]}.json`
     const targetLangPath: string = directory + `/${locales[1]}.json`
 
@@ -22,6 +22,8 @@ export const transtale = (locales: string[], directory: string | undefined, mess
 
     // message doesn't exist in targetLang JSON
     if (targetLang[message] == undefined) {
+        if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
+
         if (fromLang == undefined) fromLang = getJSON(fromLangPath)
 
         targetLang[message] = ''
@@ -29,7 +31,7 @@ export const transtale = (locales: string[], directory: string | undefined, mess
 
         writeJSON(fromLangPath, fromLang)
         writeJSON(targetLangPath, targetLang)
-    }
+    } else if (targetLang[message] == '' && warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
 
     // message exists in targetLang JSON
     if (targetLang[message] != '') returnMsg = targetLang[message]
@@ -49,6 +51,9 @@ export const transtale = (locales: string[], directory: string | undefined, mess
                 if (targetLang[replaceVal] == null) {
                     targetLang[replaceVal] = ''
                     fromLang[replaceVal] = replaceVal
+                    if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
+                } else if (targetLang[replaceVal] == '' && warnMissingTranslations) {
+                    console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
                 } else if (targetLang[replaceVal] != '') {
                     replaceVal = targetLang[replaceVal]
                 }

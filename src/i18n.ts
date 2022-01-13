@@ -5,14 +5,16 @@ import { i18ndata } from './types'
 export class I18Node {
     locales: [string, string] = ['en', 'en']
     directory: string = '../../../locales'
+    warnMissingTranslations: boolean = false
 
-    constructor(data: i18ndata = { locales: ['en', 'en'], directory: '../../../locales' }) {
-        if (data != undefined) this.config(data)
+    constructor(data: i18ndata = { locales: ['en', 'en'], directory: '../../../locales', warnMissingTranslations: false }) {
+        this.config(data)
     }
 
     config = (data: i18ndata) => {
         if (data.locales == undefined) console.warn('\x1b[33mNo locales specified\x1b[0m - defaults to ["en", "en"]')
         if (data.directory == undefined) throw new Error('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
+        if (data.warnMissingTranslations == true) this.warnMissingTranslations = true
 
         if (data.locales != undefined) this.locales = data.locales
         this.directory = data.directory
@@ -26,6 +28,6 @@ export class I18Node {
     }
 
     t = (message: string, values: any = {}) => {
-        return transtale(this.locales, this.directory, message, values)
+        return transtale(this.locales, this.directory, message, values, this.warnMissingTranslations)
     }
 }
