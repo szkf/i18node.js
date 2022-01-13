@@ -18,6 +18,7 @@ export const transtale = (locales: string[], directory: string | undefined, mess
     var returnMsg = message
 
     var passStringValRegExp: any = /\$\(.+?\)/g
+    var passValIgnoreTranslate: any = /\!\(.+?\)/g
 
     // message doesn't exist in targetLang JSON
     if (targetLang[message] == undefined) {
@@ -58,6 +59,19 @@ export const transtale = (locales: string[], directory: string | undefined, mess
 
         writeJSON(fromLangPath, fromLang)
         writeJSON(targetLangPath, targetLang)
+    }
+
+    // Pass Value Without Translating
+    var noTranslateMatches = returnMsg.match(passValIgnoreTranslate)
+
+    if (noTranslateMatches != null) {
+        for (var i = 0; i < noTranslateMatches.length; i++) {
+            var noTranslateMatch = noTranslateMatches[i].slice(2, noTranslateMatches[i].length - 1)
+
+            if (values[noTranslateMatch] != undefined) {
+                returnMsg = returnMsg.replace(noTranslateMatches[i], values[noTranslateMatch])
+            }
+        }
     }
 
     return returnMsg
