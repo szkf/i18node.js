@@ -12,7 +12,7 @@ This module should not be considered production-ready yet!
 
 ## Usage
 
-## Import As Singleton (default)
+### Import As Singleton (default)
 
 ```js
 const i18node = reauire('i18node.js')
