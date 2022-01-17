@@ -68,7 +68,9 @@ i18node.config({
 })
 ```
 
-### Basic Translation
+### Translation
+
+#### Basic translation
 
 `index.js`:
 
@@ -97,3 +99,42 @@ console.log(i18node.t('How are you?')) // "Wie geht es dir?"
 ```
 
 The JSON locale files will (if not exist already) be automaticly created on new instance or config.<br />
+
+#### Template string translation
+
+You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).<br />
+This way you can translate the phrase once and use it for all combinations without having to duplicate the same translation.
+
+```js
+console.log(i18node.t('Hello, $(question)?', { question: 'how are you' })) // "Hallo, wie geht es dir?"
+console.log(i18node.t('Hello, $(question)?', { question: "what's the weather like today" })) // "Hallo, wie ist das Wetter heute?"
+```
+
+`de.json`:
+
+```json
+{
+    "Hello, $(question)?": "Hallo, $(question)?",
+    "how are you": "wie geht es dir",
+    "what's the weather like today": "wie ist das Wetter heute"
+}
+```
+
+#### Template string without translating
+
+You can embed strings into the phrase without translating them using the `!()` syntax.<br />
+
+```js
+console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1384207' })) // "Bestellen nummer 1384207"
+console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' })) // "Bestellen nummer 1561841"
+```
+
+`de.json`:
+
+```json
+{
+    "Order number !(orderNumber)": "Bestellen nummer !(orderNumber)"
+}
+```
+
+The `$()` and `!()` syntax can be used together in the same string. There are no limitations to the amount of embedded strings in the phrase.
