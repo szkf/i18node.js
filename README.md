@@ -10,12 +10,12 @@ Lightweight Internationalization Module for Node
 
 This module should not be considered production-ready yet!
 
-## Usage
+# Usage
 
 ### Use as Singleton
 
 ```js
-const i18node = reauire('i18node.js')
+const i18node = require('i18node.js')
 
 // configure
 i18node.config({ locales: ['de', 'en'], directory: __dirname + '/locales' })
@@ -44,9 +44,9 @@ const i18node = new I18Node()
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 ```
 
-### Configuration
+## Configuration
 
-#### Config options
+### Config options
 
 ```js
 i18node.config({
@@ -68,9 +68,9 @@ i18node.config({
 })
 ```
 
-### Translation
+## Translation
 
-#### Basic translation
+### Basic translation
 
 `index.js`:
 
@@ -100,12 +100,14 @@ console.log(i18node.t('How are you?')) // "Wie geht es dir?"
 
 The JSON locale files will (if not exist already) be automaticly created on new instance or config.<br />
 
-#### Template string translation
+### Template string translation
 
 You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).<br />
 This way you can translate the phrase once and use it for all combinations without having to duplicate the same translation.
 
 ```js
+i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
+
 console.log(i18node.t('Hello, $(question)?', { question: 'how are you' })) // "Hallo, wie geht es dir?"
 console.log(i18node.t('Hello, $(question)?', { question: "what's the weather like today" })) // "Hallo, wie ist das Wetter heute?"
 ```
@@ -120,11 +122,13 @@ console.log(i18node.t('Hello, $(question)?', { question: "what's the weather lik
 }
 ```
 
-#### Template string without translating
+### Template string without translating
 
 You can embed strings into the phrase without translating them using the `!()` syntax.<br />
 
 ```js
+i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
+
 console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1384207' })) // "Bestellen nummer 1384207"
 console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' })) // "Bestellen nummer 1561841"
 ```
