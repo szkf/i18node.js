@@ -4,7 +4,7 @@ import { i18ndata } from './types'
 
 export class I18Node {
     locales: [string, string] = ['en', 'en']
-    directory: string = '../../../locales'
+    directory: string | undefined = '../../../locales'
     warnMissingTranslations: boolean = false
 
     constructor(data: i18ndata = { locales: ['en', 'en'], directory: '../../../locales', warnMissingTranslations: false }) {
@@ -13,7 +13,7 @@ export class I18Node {
 
     config = (data: i18ndata) => {
         if (data.locales == undefined) console.warn('\x1b[33mNo locales specified\x1b[0m - defaults to ["en", "en"]')
-        if (data.directory == undefined) throw new Error('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
+        if (data.directory == undefined) console.warn('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
         if (data.warnMissingTranslations == true) this.warnMissingTranslations = true
 
         if (data.locales != undefined) this.locales = data.locales
