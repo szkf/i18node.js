@@ -12,7 +12,7 @@ This module should not be considered production-ready yet!
 
 ## Usage
 
-### Import As Singleton (default)
+### Use as Singleton
 
 ```js
 const i18node = reauire('i18node.js')
@@ -21,9 +21,9 @@ const i18node = reauire('i18node.js')
 i18node.config({ locales: ['de', 'en'], directory: __dirname + '/locales' })
 ```
 
-By using singleton you can require `i18node.js` in different files and it will use the same configuration.
+By using singleton you can import `i18node.js` in different files and it will share the same configuration.
 
-### Import As Instance
+### Create an Instance
 
 ```js
 const { I18Node } = require('i18node.js')
@@ -32,7 +32,7 @@ const { I18Node } = require('i18node.js')
 const i18node = new I18Node({ locales: ['en', 'pl'], directory: __dirname + '/locales' })
 ```
 
-Alternatively you can configure after creating a instance:
+You can also configure after creating an instance:
 
 ```js
 const { I18Node } = require('i18node.js')
@@ -42,6 +42,23 @@ const i18node = new I18Node()
 
 // configure
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
+```
+
+### Configuration
+
+#### Config options
+
+```js
+i18node.config({
+    // two locales - defaults to ["en", "en"] with a warn
+    locales: ['en', 'en'],
+
+    // where to store JSON locale files - defaults to /locales in the directory containing /node_modules
+    directory: __dirname + '/locales',
+
+    // if set to true, warns of missing translations - default: false
+    warnMissingTranslations: false,
+})
 ```
 
 ### Basic Translation
