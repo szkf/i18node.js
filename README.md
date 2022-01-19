@@ -98,6 +98,7 @@ console.log(i18node.t('How are you?')) // "Wie geht es dir?"
 }
 ```
 
+If a new phrase is translated, a blank tranlsation will be added to the target language JSON file.
 The JSON locale files will (if not exist already) be automaticly created on new instance or config.<br />
 
 ### Template string translation
