@@ -52,7 +52,7 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 i18node.config({
     // two locales
     // default: ["en", "en"]
-    locales: ['en', 'en'],
+    locales: ['en', 'de'],
 
     // where to store JSON locale files
     // default: /locales in the directory containing /node_modules
