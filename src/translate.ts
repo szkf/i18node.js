@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { fallbacksI } from './types'
 
 const getJSON = (directory: string) => {
     return JSON.parse(fs.readFileSync(directory, 'utf-8'))
@@ -8,12 +9,20 @@ const writeJSON = (directory: string, data: Object) => {
     fs.writeFileSync(directory, JSON.stringify(data, null, 4), 'utf-8')
 }
 
-export const transtale = (locales: string[], directory: string | undefined, message: string, values: any = {}, warnMissingTranslations: boolean) => {
+export const transtale = (
+    locales: string[],
+    directory: string | undefined,
+    fallbacks: fallbacksI,
+    warnMissingTranslations: boolean,
+    message: string,
+    values: any = {}
+) => {
     const fromLangPath: string = directory + `/${locales[0]}.json`
     const targetLangPath: string = directory + `/${locales[1]}.json`
 
     var targetLang = getJSON(targetLangPath)
     var fromLang = undefined
+    var fallbackLang = undefined
 
     var returnMsg = message
 
@@ -22,7 +31,7 @@ export const transtale = (locales: string[], directory: string | undefined, mess
 
     // message doesn't exist in targetLang JSON
     if (targetLang[message] == undefined) {
-        if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
+        if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
 
         if (fromLang == undefined) fromLang = getJSON(fromLangPath)
 
@@ -31,7 +40,23 @@ export const transtale = (locales: string[], directory: string | undefined, mess
 
         writeJSON(fromLangPath, fromLang)
         writeJSON(targetLangPath, targetLang)
-    } else if (targetLang[message] == '' && warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+
+        if (fallbacks[locales[1]]) {
+            fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
+            if (fallbackLang[message] != '' && fallbackLang[message] != undefined) {
+                returnMsg = fallbackLang[message]
+            }
+        }
+    } else if (targetLang[message] == '') {
+        if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+
+        if (fallbacks[locales[1]]) {
+            fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
+            if (fallbackLang[message] != '' && fallbackLang[message] != undefined) {
+                returnMsg = fallbackLang[message]
+            }
+        }
+    }
 
     // message exists in targetLang JSON
     if (targetLang[message] != '') returnMsg = targetLang[message]
@@ -52,8 +77,22 @@ export const transtale = (locales: string[], directory: string | undefined, mess
                     targetLang[replaceVal] = ''
                     fromLang[replaceVal] = replaceVal
                     if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
-                } else if (targetLang[replaceVal] == '' && warnMissingTranslations) {
-                    console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+
+                    if (fallbacks[locales[1]]) {
+                        fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
+                        if (fallbackLang[replaceVal] != '' && fallbackLang[replaceVal] != undefined) {
+                            replaceVal = fallbackLang[replaceVal]
+                        }
+                    }
+                } else if (targetLang[replaceVal] == '') {
+                    if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+
+                    if (fallbacks[locales[1]]) {
+                        fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
+                        if (fallbackLang[replaceVal] != '' && fallbackLang[replaceVal] != undefined) {
+                            replaceVal = fallbackLang[replaceVal]
+                        }
+                    }
                 } else if (targetLang[replaceVal] != '') {
                     replaceVal = targetLang[replaceVal]
                 }
