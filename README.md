@@ -105,6 +105,32 @@ console.log(i18node.t('How are you?')) // "Wie geht es dir?"
 If a new phrase is translated, a blank tranlsation will be added to the target language JSON file.
 The JSON locale files will (if not exist already) be automaticly created on new instance or config.
 
+### Fallbacks
+
+```js
+i18node.config({ locales: ['en', 'cs'], directory: __dirname + '/locales', fallbacks: { cs: 'sk' } }) // configure fallbacks from Czech to Slovak
+
+console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls back to Slovak as no tranlsation to Czech is found
+```
+
+`cs.json`:
+
+```json
+{
+    "Hello! How are you?": ""
+}
+```
+
+`sk.json`:
+
+```json
+{
+    "Hello! How are you?": "Ahoj! Ako sa máš?"
+}
+```
+
+There is no limit to the amount of fallbacks. Fallbacks don't stack.
+
 ### Template string translation
 
 You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
@@ -147,27 +173,3 @@ console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' })
 ```
 
 The `$()` and `!()` syntax can be used together in the same string. There are no limitations to the amount of embedded strings in the phrase.
-
-### Fallbacks
-
-```js
-i18node.config({ locales: ['en', 'cs'], directory: __dirname + '/locales', fallbacks: { cs: 'sk' } }) // configure fallbacks from Czech to Slovak
-
-console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls back to Slovak as no tranlsation to Czech is found
-```
-
-`cs.json`:
-
-```json
-{
-    "Hello! How are you?": ""
-}
-```
-
-`sk.json`:
-
-```json
-{
-    "Hello! How are you?": "Ahoj! Ako sa máš?"
-}
-```
