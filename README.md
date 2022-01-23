@@ -58,6 +58,10 @@ i18node.config({
     // default: /locales in the directory containing /node_modules
     directory: __dirname + '/locales',
 
+    // translation fallbacks for missing tranlsations
+    // default: {}
+    fallbacks: { de: 'nl' },
+
     // if set to false, doesn't warn of default 'locales' and 'directory' config options
     // default: true
     warnDefaults: true,
@@ -143,3 +147,27 @@ console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' })
 ```
 
 The `$()` and `!()` syntax can be used together in the same string. There are no limitations to the amount of embedded strings in the phrase.
+
+### Fallbacks
+
+```js
+i18node.config({ locales: ['en', 'cs'], directory: __dirname + '/locales', fallbacks: { cs: 'sk' } }) // configure fallbacks from Czech to Slovak
+
+console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls back to Slovak as no tranlsation to Czech is found
+```
+
+`cs.json`:
+
+```json
+{
+    "Hello! How are you?": ""
+}
+```
+
+`sk.json`:
+
+```json
+{
+    "Hello! How are you?": "Ahoj! Ako sa máš?"
+}
+```
