@@ -52,7 +52,7 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 i18node.config({
     // two locales
     // default: ["en", "en"]
-    locales: ['en', 'en'],
+    locales: ['en', 'de'],
 
     // where to store JSON locale files
     // default: /locales in the directory containing /node_modules
@@ -98,11 +98,12 @@ console.log(i18node.t('How are you?')) // "Wie geht es dir?"
 }
 ```
 
-The JSON locale files will (if not exist already) be automaticly created on new instance or config.<br />
+If a new phrase is translated, a blank tranlsation will be added to the target language JSON file.
+The JSON locale files will (if not exist already) be automaticly created on new instance or config.
 
 ### Template string translation
 
-You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).<br />
+You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
 This way you can translate the phrase once and use it for all combinations without having to duplicate the same translation.
 
 ```js
