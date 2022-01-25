@@ -1,13 +1,6 @@
-import fs from 'fs'
+import { getJSON } from './getJSON'
 import { fallbacksI } from './types'
-
-const getJSON = (directory: string) => {
-    return JSON.parse(fs.readFileSync(directory, 'utf-8'))
-}
-
-const writeJSON = (directory: string, data: Object) => {
-    fs.writeFileSync(directory, JSON.stringify(data, null, 4), 'utf-8')
-}
+import { writeJSON } from './writeJSON'
 
 export const transtale = (
     locales: string[],
