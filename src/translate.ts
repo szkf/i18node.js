@@ -1,9 +1,10 @@
+import { fallback } from './fallback'
 import { getJSON } from './getJSON'
 import { fallbacksI } from './types'
 import { writeJSON } from './writeJSON'
 
 export const transtale = (
-    locales: string[],
+    locales: [string, string],
     directory: string | undefined,
     fallbacks: fallbacksI,
     warnMissingTranslations: boolean,
@@ -15,7 +16,6 @@ export const transtale = (
 
     var targetLang = getJSON(targetLangPath)
     var fromLang = undefined
-    var fallbackLang = undefined
 
     var returnMsg = message
 
@@ -23,32 +23,23 @@ export const transtale = (
     var passValIgnoreTranslate: any = /\!\(.+?\)/g
 
     // message doesn't exist in targetLang JSON
-    if (targetLang[message] == undefined) {
-        if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
+    if (targetLang[message] == undefined || targetLang[message] == '') {
+        if (targetLang[message] == undefined) {
+            if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
 
-        if (fromLang == undefined) fromLang = getJSON(fromLangPath)
+            if (fromLang == undefined) fromLang = getJSON(fromLangPath)
 
-        targetLang[message] = ''
-        fromLang[message] = message
+            targetLang[message] = ''
+            fromLang[message] = message
 
-        writeJSON(fromLangPath, fromLang)
-        writeJSON(targetLangPath, targetLang)
-
-        if (fallbacks[locales[1]]) {
-            fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
-            if (fallbackLang[message] != '' && fallbackLang[message] != undefined) {
-                returnMsg = fallbackLang[message]
-            }
+            writeJSON(fromLangPath, fromLang)
+            writeJSON(targetLangPath, targetLang)
+        } else {
+            if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
         }
-    } else if (targetLang[message] == '') {
-        if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
 
-        if (fallbacks[locales[1]]) {
-            fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
-            if (fallbackLang[message] != '' && fallbackLang[message] != undefined) {
-                returnMsg = fallbackLang[message]
-            }
-        }
+        var fallbackVal = fallback(locales, directory, fallbacks, message)
+        if (fallbackVal != undefined) returnMsg = fallbackVal
     }
 
     // message exists in targetLang JSON
@@ -71,21 +62,13 @@ export const transtale = (
                     fromLang[replaceVal] = replaceVal
                     if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
 
-                    if (fallbacks[locales[1]]) {
-                        fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
-                        if (fallbackLang[replaceVal] != '' && fallbackLang[replaceVal] != undefined) {
-                            replaceVal = fallbackLang[replaceVal]
-                        }
-                    }
+                    var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
+                    if (fallbackVal != undefined) replaceVal = fallbackVal
                 } else if (targetLang[replaceVal] == '') {
                     if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
 
-                    if (fallbacks[locales[1]]) {
-                        fallbackLang = getJSON(directory + `/${fallbacks[locales[1]]}.json`)
-                        if (fallbackLang[replaceVal] != '' && fallbackLang[replaceVal] != undefined) {
-                            replaceVal = fallbackLang[replaceVal]
-                        }
-                    }
+                    var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
+                    if (fallbackVal != undefined) replaceVal = fallbackVal
                 } else if (targetLang[replaceVal] != '') {
                     replaceVal = targetLang[replaceVal]
                 }
