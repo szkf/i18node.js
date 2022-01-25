@@ -62,7 +62,7 @@ i18node.config({
     // default: {}
     fallbacks: { de: 'nl' },
 
-    // if set to false, doesn't warn of default 'locales' and 'directory' config options
+    // whether to warn about default "locales" and "directory" config options
     // default: true
     warnDefaults: true,
 
