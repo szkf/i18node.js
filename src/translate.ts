@@ -11,28 +11,75 @@ export const transtale = (
     message: string,
     values: any = {}
 ) => {
-    const fromLangPath: string = directory + `/${locales[0]}.json`
+    const sourceLangPath: string = directory + `/${locales[0]}.json`
     const targetLangPath: string = directory + `/${locales[1]}.json`
 
     var targetLang = getJSON(targetLangPath)
-    var fromLang = undefined
+    var sourceLang = undefined
 
     var returnMsg = message
 
+    var pluralRegExp: any = /\#\(.+?\)/g
     var passStringValRegExp: any = /\$\(.+?\)/g
     var passValIgnoreTranslate: any = /\!\(.+?\)/g
 
-    // message doesn't exist in targetLang JSON
-    if (targetLang[message] == undefined || targetLang[message] == '') {
+    var pluralMatches: RegExpMatchArray | null = message.match(pluralRegExp)
+
+    if (pluralMatches != null) {
+        const targetLangPlurals = new Intl.PluralRules(locales[1])
+        const sourceLangPlurals = new Intl.PluralRules(locales[0])
+
         if (targetLang[message] == undefined) {
             if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
 
-            if (fromLang == undefined) fromLang = getJSON(fromLangPath)
+            if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
+
+            var targetLangPluralRules: any = {}
+            for (var i = 0; i < targetLangPlurals.resolvedOptions().pluralCategories.length; i++)
+                targetLangPluralRules[targetLangPlurals.resolvedOptions().pluralCategories[i]] = ''
+
+            var sourceLangPluralRules: any = {}
+            for (var i = 0; i < sourceLangPlurals.resolvedOptions().pluralCategories.length; i++)
+                sourceLangPluralRules[sourceLangPlurals.resolvedOptions().pluralCategories[i]] = ''
+
+            targetLang[message] = targetLangPluralRules
+            sourceLang[message] = sourceLangPluralRules
+
+            writeJSON(targetLangPath, targetLang)
+            writeJSON(sourceLangPath, sourceLang)
+        } else {
+            var pluralMatch = pluralMatches[0].slice(2, pluralMatches[0].length - 1)
+            console.log(values)
+            if (values[pluralMatch] != undefined) {
+                var pluralRule = targetLangPlurals.select(values[pluralMatch])
+
+                if (targetLang[message][pluralRule] == '') {
+                    if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+
+                    var sourcePluralRule = sourceLangPlurals.select(values[pluralMatch])
+
+                    if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
+                    if (sourceLang[message][sourcePluralRule] != '') {
+                        returnMsg = sourceLang[message][sourcePluralRule]
+                        returnMsg = returnMsg.replace(pluralRegExp, values[pluralMatch])
+                    }
+                } else {
+                    returnMsg = targetLang[message][pluralRule]
+                    returnMsg = returnMsg.replace(pluralRegExp, values[pluralMatch])
+                }
+            }
+        }
+    } else if (targetLang[message] == undefined || targetLang[message] == '') {
+        // message doesn't exist in targetLang JSON
+        if (targetLang[message] == undefined) {
+            if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
+
+            if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
 
             targetLang[message] = ''
-            fromLang[message] = message
+            sourceLang[message] = message
 
-            writeJSON(fromLangPath, fromLang)
+            writeJSON(sourceLangPath, sourceLang)
             writeJSON(targetLangPath, targetLang)
         } else {
             if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
@@ -40,16 +87,13 @@ export const transtale = (
 
         var fallbackVal = fallback(locales, directory, fallbacks, message)
         if (fallbackVal != undefined) returnMsg = fallbackVal
-    }
-
-    // message exists in targetLang JSON
-    if (targetLang[message] != '') returnMsg = targetLang[message]
+    } else if (targetLang[message] != '') returnMsg = targetLang[message] // message exists in targetLang JSON
 
     // Pass String Value "$(str val)"
     var matches: RegExpMatchArray | null = returnMsg.match(passStringValRegExp)
 
     if (matches != null) {
-        if (fromLang == undefined) fromLang = getJSON(fromLangPath)
+        if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
 
         for (var i = 0; i < matches.length; i++) {
             var match = matches[i].slice(2, matches[i].length - 1) // slice out the "$(" and ")"
@@ -59,7 +103,7 @@ export const transtale = (
 
                 if (targetLang[replaceVal] == null) {
                     targetLang[replaceVal] = ''
-                    fromLang[replaceVal] = replaceVal
+                    sourceLang[replaceVal] = replaceVal
                     if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
 
                     var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
@@ -77,7 +121,7 @@ export const transtale = (
             }
         }
 
-        writeJSON(fromLangPath, fromLang)
+        writeJSON(sourceLangPath, sourceLang)
         writeJSON(targetLangPath, targetLang)
     }
 
