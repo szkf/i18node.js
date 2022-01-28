@@ -173,3 +173,25 @@ console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' })
 ```
 
 The `$()` and `!()` syntax can be used together in the same string. There are no limitations to the amount of embedded strings in the phrase.
+
+### Plurals
+
+Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/PluralRules)
+
+```js
+i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
+
+console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
+console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
+```
+
+`en.json`:
+
+```json
+{
+    "You have #(itemsCount) item in your basket": {
+        "one": "You have #(itemsCount) item in your basket",
+        "other": "You have #(itemsCount) items in your basket"
+    }
+}
+```
