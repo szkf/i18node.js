@@ -134,7 +134,6 @@ There is no limit to the amount of fallbacks. Fallbacks don't stack.
 ### Template string translation
 
 You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
-This way you can translate the phrase once and use it for all combinations without having to duplicate the same translation.
 
 ```js
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
