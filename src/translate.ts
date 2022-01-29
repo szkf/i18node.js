@@ -49,7 +49,6 @@ export const transtale = (
             writeJSON(sourceLangPath, sourceLang)
         } else {
             var pluralMatch = pluralMatches[0].slice(2, pluralMatches[0].length - 1)
-            console.log(values)
             if (values[pluralMatch] != undefined) {
                 var pluralRule = targetLangPlurals.select(values[pluralMatch])
 
