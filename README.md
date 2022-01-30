@@ -154,7 +154,7 @@ console.log(i18node.t('Hello, $(question)?', { question: "what's the weather lik
 
 ### Template string without translating
 
-You can embed strings into the phrase without translating them using the `!()` syntax.<br />
+You can embed strings into the phrase without translating them using the `!()` syntax.
 
 ```js
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
