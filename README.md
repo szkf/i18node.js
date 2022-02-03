@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/szkf/i18node.js/blob/master/assets/i18nodejs.svg" width="75%" />
+  <img src="https://github.com/szkf/i18node.js/blob/master/assets/i18nodejs.svg" width="50%" />
 </div>
 
 # i18node.js
