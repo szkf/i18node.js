@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import { transtale } from './translate'
 import { fallbacksI, i18ndata } from './types'
 
@@ -24,7 +25,8 @@ export class I18Node {
         if (data.locales != undefined) this.locales = data.locales
         this.directory = data.directory
 
-        if (this.directory == undefined || !fs.existsSync(this.directory)) throw new Error(`'\x1b[31m'Directory ${this.directory} not found'\x1b[0m'`)
+        if (this.directory == undefined || !fs.existsSync(this.directory))
+            throw new Error(`'\x1b[31m'Directory ${path.resolve(String(this.directory))} not found'\x1b[0m'`)
 
         // Create missing locale JSON files
 
