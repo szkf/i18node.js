@@ -129,7 +129,7 @@ console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls bac
 }
 ```
 
-There is no limit to the amount of fallbacks. Fallbacks don't stack.
+There is no limit to the amount of fallbacks. Fallbacks don't stack. There can be only one fallback for a specific language.
 
 ### Template string translation
 
