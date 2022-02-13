@@ -133,7 +133,7 @@ There is no limit to the amount of fallbacks. Fallbacks don't stack. There can b
 
 ### Template string translation
 
-You can embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
+Embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
 
 ```js
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
@@ -175,7 +175,7 @@ The `$()` and `!()` syntax can be used together in the same string. There are no
 
 ### Plurals
 
-Using the `#()` syntax. There can only be one plural in the phrase. Support for multiple coming soon.
+There can only be one plural in the phrase. Support for multiple coming soon.
 Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/PluralRules)
 
 ```js
