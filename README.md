@@ -8,7 +8,7 @@ Lightweight Internationalization Module for Node
 
 ### Note!
 
-This module should not be considered production-ready yet!
+Until version v1.0.0 this module should not be considered production-ready!
 
 # Usage
 
