@@ -129,7 +129,7 @@ console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls bac
 }
 ```
 
-There is no limit to the amount of fallbacks. Fallbacks don't stack. There can be only one fallback for a specific language.
+There is no limit to the amount of fallbacks. There can be only one fallback for a specific language. Fallbacks don't stack (if language A falls back to B and B to C, then if no translation is found for language A and B it will not fallback to C).
 
 ### Template string translation
 
@@ -183,6 +183,8 @@ i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
 
 console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
 console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
+console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 0 })) // "You have 0 items in your basket"
+console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 15 })) // "You have 15 items in your basket"
 ```
 
 `en.json`:
