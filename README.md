@@ -131,7 +131,7 @@ console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls bac
 
 There is no limit to the amount of fallbacks. There can be only one fallback for a specific language. Fallbacks don't stack (if language A falls back to B and B to C, then if no translation is found for language A and B it will not fallback to C).
 
-### Template string translation
+### Embed string value
 
 Embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
 
@@ -152,7 +152,7 @@ console.log(i18node.t('Hello, $(question)?', { question: "what's the weather lik
 }
 ```
 
-### Template string without translating
+### Embed string value without translating
 
 You can embed strings into the phrase without translating them using the `!()` syntax.
 
