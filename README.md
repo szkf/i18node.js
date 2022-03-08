@@ -66,7 +66,7 @@ i18node.config({
     // default: true
     warnDefaults: true,
 
-    // if set to true, warns of missing translations
+    // if set to true, warns of missing translations (or newly added translations)
     // default: false
     warnMissingTranslations: false,
 })
