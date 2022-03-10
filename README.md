@@ -50,7 +50,7 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 
 ```js
 i18node.config({
-    // two locales
+    // two locales: [source language, target language]
     // default: ["en", "en"]
     locales: ['en', 'de'],
 
