@@ -181,19 +181,19 @@ Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/
 ```js
 i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
 
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 0 })) // "You have 0 items in your basket"
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 15 })) // "You have 15 items in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 0 })) // "You have 0 items in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 15 })) // "You have 15 items in your basket"
 ```
 
 `en.json`:
 
 ```json
 {
-    "You have #(itemsCount) item in your basket": {
-        "one": "You have #(itemsCount) item in your basket",
-        "other": "You have #(itemsCount) items in your basket"
+    "You have #(itemCount) item in your basket": {
+        "one": "You have #(itemCount) item in your basket",
+        "other": "You have #(itemCount) items in your basket"
     }
 }
 ```
