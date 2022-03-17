@@ -50,7 +50,7 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 
 ```js
 i18node.config({
-    // two locales
+    // two locales: [source language, target language]
     // default: ["en", "en"]
     locales: ['en', 'de'],
 
@@ -66,7 +66,7 @@ i18node.config({
     // default: true
     warnDefaults: true,
 
-    // if set to true, warns of missing translations
+    // if set to true, warns of missing translations (or newly added translations)
     // default: false
     warnMissingTranslations: false,
 })
@@ -131,7 +131,7 @@ console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls bac
 
 There is no limit to the amount of fallbacks. There can be only one fallback for a specific language. Fallbacks don't stack (if language A falls back to B and B to C, then if no translation is found for language A and B it will not fallback to C).
 
-### Template string translation
+### Embed string value
 
 Embed strings into the translation phrase using the `$()` syntax (notice the parenthesis instead of curly brackets).
 
@@ -152,7 +152,7 @@ console.log(i18node.t('Hello, $(question)?', { question: "what's the weather lik
 }
 ```
 
-### Template string without translating
+### Embed string value without translating
 
 You can embed strings into the phrase without translating them using the `!()` syntax.
 
@@ -181,19 +181,19 @@ Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/
 ```js
 i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
 
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 0 })) // "You have 0 items in your basket"
-console.log(i18node.t('You have #(itemsCount) item in your basket', { itemCount: 15 })) // "You have 15 items in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 0 })) // "You have 0 items in your basket"
+console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 15 })) // "You have 15 items in your basket"
 ```
 
 `en.json`:
 
 ```json
 {
-    "You have #(itemsCount) item in your basket": {
-        "one": "You have #(itemsCount) item in your basket",
-        "other": "You have #(itemsCount) items in your basket"
+    "You have #(itemCount) item in your basket": {
+        "one": "You have #(itemCount) item in your basket",
+        "other": "You have #(itemCount) items in your basket"
     }
 }
 ```
