@@ -1,6 +1,6 @@
 {
     "name": "i18nodejs",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "description": "Lightweight Internationalization Module for Node",
     "main": "index.js",
     "scripts": {
@@ -14,7 +14,8 @@
         "i18n",
         "i18node",
         "i18nodejs",
-        "i18node.js"
+        "i18node.js",
+        "internationalization"
     ],
     "author": "",
     "license": "ISC",
