@@ -11,15 +11,7 @@ export class I18Node {
     warnMissingTranslations: boolean = false
 
     constructor(configOptions: i18nConfigOptions = { locales: undefined, directory: undefined, fallbacks: {}, warnDefaults: false, warnMissingTranslations: false }) {
-        var data = {
-            locales: configOptions.locales,
-            directory: configOptions.directory,
-            fallbacks: configOptions.fallbacks,
-            warnDefaults: configOptions.warnDefaults,
-            warnMissingTranslations: configOptions.warnMissingTranslations,
-        }
-
-        this.config(data)
+        this.config(configOptions)
     }
 
     config = (configOptions: i18nConfigOptions) => {
