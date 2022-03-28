@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/szkf/i18node.js/blob/master/assets/i18nodejs2.svg" width="75%" />
+  <img src="https://github.com/szkf/i18node.js/blob/master/assets/i18nodejs2.svg" width="80%" />
 </div>
 
 # i18node.js
@@ -8,7 +8,7 @@ Lightweight Internationalization Module for Node
 
 ### Note!
 
-Until version v1.0.0 this module should not be considered production-ready!
+__Until version v1.0.0 this module should not be considered production-ready!__
 
 # Usage
 
