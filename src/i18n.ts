@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { transtale } from './translate'
-import { fallbacksI, i18ndata } from './types'
+import { fallbacksI, i18nConfigOptions } from './types'
 
 export class I18Node {
     locales: [string, string] = ['en', 'en']
@@ -10,21 +10,29 @@ export class I18Node {
     warnDefaults: boolean = true
     warnMissingTranslations: boolean = false
 
-    constructor(data: i18ndata = { locales: undefined, directory: undefined, fallbacks: {}, warnDefaults: true, warnMissingTranslations: false }) {
+    constructor(configOptions: i18nConfigOptions = { locales: undefined, directory: undefined, fallbacks: {}, warnDefaults: false, warnMissingTranslations: false }) {
+        var data = {
+            locales: configOptions.locales,
+            directory: configOptions.directory,
+            fallbacks: configOptions.fallbacks,
+            warnDefaults: configOptions.warnDefaults,
+            warnMissingTranslations: configOptions.warnMissingTranslations,
+        }
+
         this.config(data)
     }
 
-    config = (data: i18ndata) => {
-        if (data.warnDefaults) {
-            if (data.locales == undefined) console.warn('\x1b[33mNo locales specified\x1b[0m - defaults to ["en", "en"]')
-            if (data.directory == undefined) console.warn('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
+    config = (configOptions: i18nConfigOptions) => {
+        if (configOptions.warnDefaults) {
+            if (configOptions.locales == undefined) console.warn('\x1b[33mNo locales specified\x1b[0m - defaults to ["en", "en"]')
+            if (configOptions.directory == undefined) console.warn('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
         }
 
-        if (data.locales != undefined) this.locales = data.locales
-        if (data.directory != undefined) this.directory = data.directory
-        if (data.fallbacks != undefined) this.fallbacks = data.fallbacks
-        this.warnDefaults = data.warnDefaults
-        this.warnMissingTranslations = data.warnMissingTranslations
+        if (configOptions.locales != undefined) this.locales = configOptions.locales
+        if (configOptions.directory != undefined) this.directory = configOptions.directory
+        if (configOptions.fallbacks != undefined) this.fallbacks = configOptions.fallbacks
+        this.warnDefaults = configOptions.warnDefaults
+        this.warnMissingTranslations = configOptions.warnMissingTranslations
 
         if (this.directory == undefined || !fs.existsSync(this.directory))
             throw new Error(`'\x1b[31m'Directory ${path.resolve(String(this.directory))} not found'\x1b[0m'`)
