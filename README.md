@@ -51,22 +51,27 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 ```js
 i18node.config({
     // two locales: [source language, target language]
+    // type: [string, string]
     // default: ["en", "en"]
     locales: ['en', 'de'],
 
     // where to store JSON locale files
+    // type: string
     // default: /locales in the directory containing /node_modules
     directory: __dirname + '/locales',
 
     // translation fallbacks for missing tranlsations
+    // type: { string: string, ...}
     // default: {}
     fallbacks: { de: 'nl' },
 
     // whether to warn about default "locales" and "directory" config options
+    // type: boolean
     // default: true
     warnDefaults: true,
 
     // if set to true, warns of missing translations (or newly added translations)
+    // type: boolean
     // default: false
     warnMissingTranslations: false,
 })
