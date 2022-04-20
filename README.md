@@ -8,7 +8,7 @@ Lightweight Internationalization Module for Node
 
 ### Note!
 
-__Until version v1.0.0 this module should not be considered production-ready!__
+*Until i18node.js v1.0.0 this module should not be considered production-ready!*
 
 # Usage
 
@@ -51,22 +51,27 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 ```js
 i18node.config({
     // two locales: [source language, target language]
+    // type: [string, string]
     // default: ["en", "en"]
     locales: ['en', 'de'],
 
     // where to store JSON locale files
+    // type: string
     // default: /locales in the directory containing /node_modules
     directory: __dirname + '/locales',
 
     // translation fallbacks for missing tranlsations
+    // type: { string: string, ...}
     // default: {}
     fallbacks: { de: 'nl' },
 
     // whether to warn about default "locales" and "directory" config options
+    // type: boolean
     // default: true
     warnDefaults: true,
 
     // if set to true, warns of missing translations (or newly added translations)
+    // type: boolean
     // default: false
     warnMissingTranslations: false,
 })
@@ -129,7 +134,7 @@ console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls bac
 }
 ```
 
-There is no limit to the amount of fallbacks. There can be only one fallback for a specific language. Fallbacks don't stack (if language A falls back to B and B to C, then if no translation is found for language A and B it will not fallback to C).
+There is no limit to the amount of fallbacks. There can be only one fallback for a specific language. Fallbacks don't stack (if language A falls back to B and B falls back to C, then if no translation is found for language A and B it will not fallback to C).
 
 ### Embed string value
 
