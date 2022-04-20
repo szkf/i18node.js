@@ -16,8 +16,8 @@ export class I18Node {
 
     config = (configOptions: i18nConfigOptions) => {
         if (configOptions.warnDefaults) {
-            if (configOptions.locales == undefined) console.warn('\x1b[33mNo locales specified\x1b[0m - defaults to ["en", "en"]')
-            if (configOptions.directory == undefined) console.warn('\x1b[31mA directory is required for storing JSON locale files\x1b[0m')
+            if (configOptions.locales == undefined) console.warn('No locales specified - defaults to ["en", "en"]')
+            if (configOptions.directory == undefined) console.warn('A directory is required for storing JSON locale files')
         }
 
         if (configOptions.locales != undefined) this.locales = configOptions.locales
@@ -26,8 +26,7 @@ export class I18Node {
         this.warnDefaults = configOptions.warnDefaults
         this.warnMissingTranslations = configOptions.warnMissingTranslations
 
-        if (this.directory == undefined || !fs.existsSync(this.directory))
-            throw new Error(`'\x1b[31m'Directory ${path.resolve(String(this.directory))} not found'\x1b[0m'`)
+        if (this.directory == undefined || !fs.existsSync(this.directory)) throw new Error(`Directory ${path.resolve(String(this.directory))} not found`)
 
         if (!fs.existsSync(this.directory + `/${this.locales[0]}.json`)) fs.appendFileSync(this.directory + `/${this.locales[0]}.json`, '{}')
         if (!fs.existsSync(this.directory + `/${this.locales[1]}.json`)) fs.appendFileSync(this.directory + `/${this.locales[1]}.json`, '{}')

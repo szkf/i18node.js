@@ -30,7 +30,7 @@ export const transtale = (
         const sourceLangPlurals = new Intl.PluralRules(locales[0])
 
         if (targetLang[message] == undefined) {
-            if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
+            if (warnMissingTranslations) console.warn(`New blank translation added! "${message}"`)
 
             if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
 
@@ -53,7 +53,7 @@ export const transtale = (
                 var pluralRule = targetLangPlurals.select(values[pluralMatch])
 
                 if (targetLang[message][pluralRule] == '') {
-                    if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+                    if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
 
                     var sourcePluralRule = sourceLangPlurals.select(values[pluralMatch])
 
@@ -71,7 +71,7 @@ export const transtale = (
     } else if (targetLang[message] == undefined || targetLang[message] == '') {
         // message doesn't exist in targetLang JSON
         if (targetLang[message] == undefined) {
-            if (warnMissingTranslations) console.warn(`\x1b[33mNew blank translation added!\x1b[0m "${message}"`)
+            if (warnMissingTranslations) console.warn(`New blank translation added! "${message}"`)
 
             if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
 
@@ -81,7 +81,7 @@ export const transtale = (
             writeJSON(sourceLangPath, sourceLang)
             writeJSON(targetLangPath, targetLang)
         } else {
-            if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+            if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
         }
 
         var fallbackVal = fallback(locales, directory, fallbacks, message)
@@ -103,12 +103,12 @@ export const transtale = (
                 if (targetLang[replaceVal] == null) {
                     targetLang[replaceVal] = ''
                     sourceLang[replaceVal] = replaceVal
-                    if (warnMissingTranslations) console.warn(`\x1b[33mNew translation added!\x1b[0m "${message}"`)
+                    if (warnMissingTranslations) console.warn(`New translation added! "${message}"`)
 
                     var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
                     if (fallbackVal != undefined) replaceVal = fallbackVal
                 } else if (targetLang[replaceVal] == '') {
-                    if (warnMissingTranslations) console.warn(`\x1b[33mNo translation found!\x1b[0m "${message}"`)
+                    if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
 
                     var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
                     if (fallbackVal != undefined) replaceVal = fallbackVal
