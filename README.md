@@ -8,7 +8,7 @@ Lightweight Internationalization Module for Node
 
 ### Note!
 
-*Until i18node.js v1.0.0 this module should not be considered production-ready!*
+*Until version i18node.js v1.0.0 this module should not be considered production-ready!*
 
 # Usage
 
