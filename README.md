@@ -180,7 +180,7 @@ The `$()` and `!()` syntax can be used together in the same string. There are no
 
 ### Plurals
 
-There can only be one plural in the phrase. Support for multiple coming soon.
+There can only be one plural in the phrase. Support for multiple in one phrase coming soon.
 Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/PluralRules)
 
 ```js
