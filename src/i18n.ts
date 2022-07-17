@@ -14,7 +14,7 @@ export class I18Node {
         this.config(configOptions)
     }
 
-    config = (configOptions: i18nConfigOptions) => {
+    config(configOptions: i18nConfigOptions) {
         if (configOptions.warnDefaults) {
             if (configOptions.locales == undefined) console.warn('No locales specified - defaults to ["en", "en"]')
             if (configOptions.directory == undefined) console.warn('A directory is required for storing JSON locale files')
@@ -52,7 +52,7 @@ export class I18Node {
         }
     }
 
-    t = (message: string, values: any = {}) => {
+    t(message: string, values: any = {}) {
         return transtale(this.locales, this.directory, this.fallbacks, this.warnMissingTranslations, message, values)
     }
 }
