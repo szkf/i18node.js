@@ -10,11 +10,13 @@ export class I18Node {
     warnDefaults: boolean = true
     warnMissingTranslations: boolean = false
 
-    constructor(configOptions: i18nConfigOptions = { locales: undefined, directory: undefined, fallbacks: {}, warnDefaults: false, warnMissingTranslations: false }) {
+    constructor(configOptions: i18nConfigOptions | undefined = undefined) {
         this.config(configOptions)
     }
 
-    config(configOptions: i18nConfigOptions) {
+    config(configOptions: i18nConfigOptions | undefined) {
+        if (configOptions == undefined) return
+
         if (configOptions.warnDefaults) {
             if (configOptions.locales == undefined) console.warn('No locales specified - defaults to ["en", "en"]')
             if (configOptions.directory == undefined) console.warn('A directory is required for storing JSON locale files')
