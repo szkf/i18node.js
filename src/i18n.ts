@@ -23,8 +23,8 @@ export class I18Node {
         if (configOptions.locales != undefined) this.locales = configOptions.locales
         if (configOptions.directory != undefined) this.directory = configOptions.directory
         if (configOptions.fallbacks != undefined) this.fallbacks = configOptions.fallbacks
-        this.warnDefaults = configOptions.warnDefaults
-        this.warnMissingTranslations = configOptions.warnMissingTranslations
+        if (configOptions.warnDefaults != undefined) this.warnDefaults = configOptions.warnDefaults
+        if (configOptions.warnMissingTranslations != undefined) this.warnMissingTranslations = configOptions.warnMissingTranslations
 
         if (this.directory == undefined || !fs.existsSync(this.directory)) throw new Error(`Directory ${path.resolve(String(this.directory))} not found`)
 
