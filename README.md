@@ -15,27 +15,23 @@ Lightweight Internationalization Module for Node
 ### Use as Singleton
 
 ```js
-const i18node = require('i18node.js')
+const i18node = require('i18node.js') // import
 
 // configure
 i18node.config({ locales: ['de', 'en'], directory: __dirname + '/locales' })
 ```
 
-By using singleton you can import `i18node.js` in different files and it will share the same configuration.
+Using singleton `i18node.js` will share the same configuration when imported in different files.
 
 ### Create an Instance
 
 ```js
-const { I18Node } = require('i18node.js')
+const { I18Node } = require('i18node.js') // import
 
 // create new instance with configuration
 const i18node = new I18Node({ locales: ['en', 'pl'], directory: __dirname + '/locales' })
-```
 
-You can also configure after creating an instance:
-
-```js
-const { I18Node } = require('i18node.js')
+/* or */
 
 // create new instance
 const i18node = new I18Node()
