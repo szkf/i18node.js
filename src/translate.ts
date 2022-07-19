@@ -100,13 +100,18 @@ export const transtale = (
             if (values[match] != undefined) {
                 var replaceVal = values[match]
 
+                if (sourceLang[replaceVal] == null) {
+                    sourceLang[replaceVal] = replaceVal
+                    writeJSON(sourceLangPath, sourceLang)
+                }
+
                 if (targetLang[replaceVal] == null) {
                     targetLang[replaceVal] = ''
-                    sourceLang[replaceVal] = replaceVal
                     if (warnMissingTranslations) console.warn(`New translation added! "${message}"`)
 
                     var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
                     if (fallbackVal != undefined) replaceVal = fallbackVal
+                    writeJSON(targetLangPath, targetLang)
                 } else if (targetLang[replaceVal] == '') {
                     if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
 
@@ -119,9 +124,6 @@ export const transtale = (
                 returnMsg = returnMsg.replace(matches[i], replaceVal)
             }
         }
-
-        writeJSON(sourceLangPath, sourceLang)
-        writeJSON(targetLangPath, targetLang)
     }
 
     // Pass Value Without Translating
