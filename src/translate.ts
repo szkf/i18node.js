@@ -33,38 +33,63 @@ export const transtale = (
         // No translation found - add new blank translation
         if (targetLang[message] == undefined) {
             if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
-            targetLang[message] = {}
-            sourceLang[message] = {}
 
-            targetLangPlurals.resolvedOptions().pluralCategories.forEach((e) => (targetLang[message][e] = ''))
-            sourceLangPlurals.resolvedOptions().pluralCategories.forEach((e) => (sourceLang[message][e] = ''))
+            targetLang[message] = { full: '' }
+            sourceLang[message] = { full: '' }
+
+            for (var i = 0; i < pluralMatches.length; i++) {
+                var pluralSelector = pluralMatches[i].slice(2, -1)
+                targetLang[message][pluralSelector] = {}
+                targetLangPlurals.resolvedOptions().pluralCategories.forEach((e) => (targetLang[message][pluralSelector][e] = ''))
+                sourceLang[message][pluralSelector] = {}
+                sourceLangPlurals.resolvedOptions().pluralCategories.forEach((e) => (sourceLang[message][pluralSelector][e] = ''))
+            }
 
             writeJSON(targetLangPath, targetLang)
             writeJSON(sourceLangPath, sourceLang)
 
+            translation = message
+
             if (warnMissingTranslations) console.warn(`New blank translation added! "${message}"`)
         } else {
-            // Translation exists
-            var pluralNum: number | undefined = values[pluralMatches[0].slice(2, -1)]
+            if (targetLang[message].full == '') {
+                if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
 
-            if (pluralNum != undefined) {
-                var targetPluralRule = targetLangPlurals.select(pluralNum)
-
-                if (targetLang[message][targetPluralRule] == '') {
-                    if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
-                    var sourcePluralRule = sourceLangPlurals.select(pluralNum)
-
-                    if (sourceLang[message][sourcePluralRule] != '') {
-                        translation = sourceLang[message][sourcePluralRule]
-                        translation = translation.replace(pluralRegExp, pluralNum.toString())
-                    } else {
-                        translation = message.replace(pluralRegExp, pluralNum.toString())
-                    }
-
-                    if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
+                if (sourceLang[message].full != '') {
+                    translation = sourceLang[message].full
                 } else {
-                    translation = targetLang[message][targetPluralRule]
-                    translation = translation.replace(pluralRegExp, pluralNum.toString())
+                    translation = message
+                }
+            } else translation = targetLang[message].full
+
+            // Translation exists
+
+            for (var i = 0; i < pluralMatches.length; i++) {
+                var pluralSelector = pluralMatches[i].slice(2, -1)
+
+                var pluralNum: number | undefined = values[pluralSelector]
+
+                if (pluralNum != undefined) {
+                    var targetPluralRule = targetLangPlurals.select(pluralNum)
+
+                    if (targetLang[message][pluralSelector][targetPluralRule] == '') {
+                        if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
+
+                        var sourcePluralRule = sourceLangPlurals.select(pluralNum)
+
+                        if (sourceLang[message][pluralSelector][sourcePluralRule] != '') {
+                            var replacePluralString = sourceLang[message][pluralSelector][targetPluralRule].replace(pluralMatches[i], pluralNum.toString())
+                            translation = translation.replace(pluralMatches[i], replacePluralString)
+                        } else {
+                            // todo: try to fallback
+                            translation = message.replace(pluralMatches[i], pluralNum.toString())
+                        }
+
+                        if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
+                    } else {
+                        var replacePluralString = targetLang[message][pluralSelector][targetPluralRule].replace(pluralMatches[i], pluralNum.toString())
+                        translation = translation.replace(pluralMatches[i], replacePluralString)
+                    }
                 }
             }
         }

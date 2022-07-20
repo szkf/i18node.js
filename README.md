@@ -84,7 +84,7 @@ const i18node = require('i18node.js')
 
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 
-console.log(i18node.t('How are you?')) // "Wie geht es dir?"
+i18node.t('How are you?') // "Wie geht es dir?"
 ```
 
 `en.json`:
@@ -111,7 +111,7 @@ The JSON locale files will (if not exist already) be automaticly created on new 
 ```js
 i18node.config({ locales: ['en', 'cs'], directory: __dirname + '/locales', fallbacks: { cs: 'sk' } }) // configure fallbacks from Czech to Slovak
 
-console.log(i18node.t('Hello! How are you?')) // Ahoj! Ako sa máš? - falls back to Slovak as no tranlsation to Czech is found
+i18node.t('Hello! How are you?') // Ahoj! Ako sa máš? - falls back to Slovak as no tranlsation to Czech is found
 ```
 
 `cs.json`:
@@ -139,8 +139,8 @@ Embed strings into the translation phrase using the `$()` syntax (notice the par
 ```js
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 
-console.log(i18node.t('Hello, $(question)?', { question: 'how are you' })) // "Hallo, wie geht es dir?"
-console.log(i18node.t('Hello, $(question)?', { question: "what's the weather like today" })) // "Hallo, wie ist das Wetter heute?"
+i18node.t('Hello, $(question)?', { question: 'how are you' }) // "Hallo, wie geht es dir?"
+i18node.t('Hello, $(question)?', { question: "what's the weather like today" }) // "Hallo, wie ist das Wetter heute?"
 ```
 
 `de.json`:
@@ -160,8 +160,8 @@ You can embed strings into the phrase without translating them using the `!()` s
 ```js
 i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 
-console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1384207' })) // "Bestellen nummer 1384207"
-console.log(i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' })) // "Bestellen nummer 1561841"
+i18node.t('Order number !(orderNumber)', { orderNumber: '1384207' }) // "Bestellen nummer 1384207"
+i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' }) // "Bestellen nummer 1561841"
 ```
 
 `de.json`:
@@ -176,16 +176,15 @@ The `$()` and `!()` syntax can be used together in the same string. There are no
 
 ### Plurals
 
-There can only be one plural in the phrase. Support for multiple in one phrase coming soon.
 Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/PluralRules)
 
 ```js
 i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
 
-console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 1 })) // "You have 1 item in your basket"
-console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 4 })) // "You have 4 items in your basket"
-console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 0 })) // "You have 0 items in your basket"
-console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 15 })) // "You have 15 items in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: 1 }) // "You have 1 item in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: 4 }) // "You have 4 items in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: 0 }) // "You have 0 items in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: 15 }) // "You have 15 items in your basket"
 ```
 
 `en.json`:
@@ -193,8 +192,40 @@ console.log(i18node.t('You have #(itemCount) item in your basket', { itemCount: 
 ```json
 {
     "You have #(itemCount) item in your basket": {
-        "one": "You have #(itemCount) item in your basket",
-        "other": "You have #(itemCount) items in your basket"
+        "full": "You have #(itemCount) in your basket",
+        "itemCount": {
+            "one": "You have #(itemCount) item in your basket",
+            "other": "You have #(itemCount) items in your basket"
+        }
+    }
+}
+```
+
+##### Mulitple plurals in one phrase
+
+```js
+i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
+
+i18node.t('You have #(orangeCount) oranges and #(melonCount) melon', { orangeCount: 1, melonCount: 1 }) // Du hast 1 Orange und 1 Melone
+i18node.t('You have #(orangeCount) oranges and #(melonCount) melon', { orangeCount: 1, melonCount: 2 }) // Du hast 1 Orange und 2 Melonen
+i18node.t('You have #(orangeCount) oranges and #(melonCount) melon', { orangeCount: 2, melonCount: 1 }) // Du hast 1 Orangen und 2 Melon
+i18node.t('You have #(orangeCount) oranges and #(melonCount) melon', { orangeCount: 2, melonCount: 2 }) // Du hast 2 Orangen und 2 Melonen
+```
+
+`de.json`:
+
+```json
+{
+    "You have #(orangeCount) oranges and #(melonCount) melon": {
+        "full": "Du hast #(orageCount) und #(melonCount)",
+        "orangeCount": {
+            "one": "#(orangeCount) Orange",
+            "other": "#(orangeCount) Orangen"
+        },
+        "melonCount": {
+            "one": "#(melonCount) Melon",
+            "other": "#(melonCount) Melonen"
+        }
     }
 }
 ```
