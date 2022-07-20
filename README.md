@@ -8,7 +8,7 @@ Lightweight Internationalization Module for Node
 
 ### Note!
 
-*Until version i18node.js v1.0.0 this module should not be considered production-ready!*
+_Until version i18node.js v1.0.0 this module should not be considered production-ready!_
 
 # Usage
 
@@ -46,8 +46,8 @@ i18node.config({ locales: ['en', 'de'], directory: __dirname + '/locales' })
 
 ```js
 i18node.config({
-    // two locales: [source language, target language]
-    // type: [string, string]
+    // two locales: [source language locale, target language locale]
+    // type: [string with BCP 47 language tag, string with BCP 47 language tag]
     // default: ["en", "en"]
     locales: ['en', 'de'],
 
