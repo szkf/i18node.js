@@ -13,9 +13,11 @@ export const transtale = (
 ) => {
     const sourceLangPath: string = directory + `/${locales[0]}.json`
     const targetLangPath: string = directory + `/${locales[1]}.json`
+    const fallbackLangPath: string = directory + `/${fallbacks[locales[1]]}.json`
 
     var targetLang: any = getJSON(targetLangPath)
     var sourceLang: any = undefined
+    var fallbackLang = undefined
 
     var translation = message
 
@@ -110,7 +112,8 @@ export const transtale = (
             console.warn(`No translation found! "${message}"`)
         }
 
-        var fallbackVal = fallback(locales, directory, fallbacks, message)
+        if (fallbackLang == undefined) fallbackLang = getJSON(fallbackLangPath)
+        var fallbackVal = fallback(fallbackLang, locales, directory, fallbacks, message)
         if (fallbackVal != undefined) translation = fallbackVal
     } else if (targetLang[message] != '') translation = targetLang[message] // message exists in targetLang JSON
 
@@ -135,13 +138,15 @@ export const transtale = (
                     targetLang[replaceVal] = ''
                     if (warnMissingTranslations) console.warn(`New blank translation added! "${message}"`)
 
-                    var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
+                    if (fallbackLang == undefined) fallbackLang = getJSON(fallbackLangPath)
+                    var fallbackVal = fallback(fallbackLang, locales, directory, fallbacks, replaceVal)
                     if (fallbackVal != undefined) replaceVal = fallbackVal
                     writeJSON(targetLangPath, targetLang)
                 } else if (targetLang[replaceVal] == '') {
                     if (warnMissingTranslations) console.warn(`No translation found! "${message}"`)
 
-                    var fallbackVal = fallback(locales, directory, fallbacks, replaceVal)
+                    if (fallbackLang == undefined) fallbackLang = getJSON(fallbackLangPath)
+                    var fallbackVal = fallback(fallbackLang, locales, directory, fallbacks, replaceVal)
                     if (fallbackVal != undefined) replaceVal = fallbackVal
                 } else if (targetLang[replaceVal] != '') {
                     replaceVal = targetLang[replaceVal]
