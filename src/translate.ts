@@ -1,9 +1,9 @@
+import getJSON from './getJSON'
+import writeJSON from './writeJSON'
 import { fallback } from './fallback'
-import { getJSON } from './getJSON'
 import { fallbacksI } from './types'
-import { writeJSON } from './writeJSON'
 
-export const transtale = (
+const transtale = (
     locales: [string, string],
     directory: string | undefined,
     fallbacks: fallbacksI,
@@ -172,3 +172,5 @@ export const transtale = (
 
     return translation
 }
+
+export default transtale

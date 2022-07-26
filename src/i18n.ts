@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { transtale } from './translate'
+import transtale from './translate'
 import { fallbacksI, i18nConfigOptions } from './types'
 
 export class I18Node {
