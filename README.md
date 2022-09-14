@@ -176,15 +176,28 @@ The `$()` and `!()` syntax can be used together in the same string. There are no
 
 ### Plurals
 
+Use the `#(pluralName)` syntax to add a plural to a phrase, then reference the name in the second paramater of the i18node.t() method:
+
+```js
+i18node.t(phrase, {
+    pluralName: {
+        value: 0, // number
+        type: '', // 'cardinal' (default when the type is not provided) or 'ordinal'
+    },
+})
+```
+
 Pluralisation is provided by the [Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/PluralRules)
+
+##### Cardinal numbers
 
 ```js
 i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
 
-i18node.t('You have #(itemCount) item in your basket', { itemCount: 1 }) // "You have 1 item in your basket"
-i18node.t('You have #(itemCount) item in your basket', { itemCount: 4 }) // "You have 4 items in your basket"
-i18node.t('You have #(itemCount) item in your basket', { itemCount: 0 }) // "You have 0 items in your basket"
-i18node.t('You have #(itemCount) item in your basket', { itemCount: 15 }) // "You have 15 items in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: { value: 1, type: 'cardinal' } }) // "You have 1 item in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: { value: 4, type: 'cardinal' } }) // "You have 4 items in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: { value: 0 } }) // "You have 0 items in your basket"
+i18node.t('You have #(itemCount) item in your basket', { itemCount: { value: 15 } }) // "You have 15 items in your basket"
 ```
 
 `en.json`:
@@ -196,6 +209,33 @@ i18node.t('You have #(itemCount) item in your basket', { itemCount: 15 }) // "Yo
         "itemCount": {
             "one": "You have #(itemCount) item in your basket",
             "other": "You have #(itemCount) items in your basket"
+        }
+    }
+}
+```
+
+##### Ordinal numbers
+
+```js
+i18node.config({ locales: ['en', 'en'], directory: __dirname + '/locales' })
+
+i18node.t('#(nthExample) example', { nthExample: { value: 1, type: 'ordinal' } }) // "1st example"
+i18node.t('#(nthExample) example', { nthExample: { value: 2, type: 'ordinal' } }) // "2nd example"
+i18node.t('#(nthExample) example', { nthExample: { value: 3, type: 'ordinal' } }) // "3rd example"
+i18node.t('#(nthExample) example', { nthExample: { value: 4, type: 'ordinal' } }) // "4th example"
+```
+
+`en.json`:
+
+```json
+{
+    "#(nthExample) example": {
+        "full": "#(nthExample) example",
+        "nthExample": {
+            "few": "#(nthExample)rd",
+            "one": "#(nthExample)st",
+            "two": "#(nthExample)nd",
+            "other": "#(nthExample)th"
         }
     }
 }
@@ -229,3 +269,5 @@ i18node.t('You have #(orangeCount) oranges and #(melonCount) melon', { orangeCou
     }
 }
 ```
+
+Cardinal and ordinal numbers can be used together in one phrase.
