@@ -172,7 +172,7 @@ i18node.t('Order number !(orderNumber)', { orderNumber: '1561841' }) // "Bestell
 }
 ```
 
-The `$()` and `!()` syntax can be used together in the same string. There are no limitations to the amount of embedded strings in the phrase.
+The `$()` and `!()` syntax can be used together in the same string. There are no limitations to the amount of embedded strings in a phrase.
 
 ### Plurals
 
