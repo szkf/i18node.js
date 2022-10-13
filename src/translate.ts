@@ -29,8 +29,14 @@ const transtale = (
 
     // Plurals
     if (pluralMatches != null) {
-        var targetLangPlurals = new Intl.PluralRules(locales[1])
-        var sourceLangPlurals = new Intl.PluralRules(locales[0])
+        var sourceLangPluralRules: any = {
+            cardinal: new Intl.PluralRules(locales[0], { type: 'cardinal' }),
+            ordinal: new Intl.PluralRules(locales[0], { type: 'ordinal' }),
+        }
+        var targetLangPluralRules: any = {
+            cardinal: new Intl.PluralRules(locales[1], { type: 'cardinal' }),
+            ordinal: new Intl.PluralRules(locales[0], { type: 'ordinal' }),
+        }
 
         // No translation found - add new blank translation
         if (targetLang[message] == undefined) {
@@ -40,11 +46,16 @@ const transtale = (
             sourceLang[message] = { full: '' }
 
             for (var i = 0; i < pluralMatches.length; i++) {
-                var pluralSelector = pluralMatches[i].slice(2, -1)
+                var pluralSelector: string = pluralMatches[i].slice(2, -1)
+                var pluralType: string | undefined = values[pluralSelector].type
+
+                if (pluralType == undefined) pluralType = 'cardinal'
+
                 targetLang[message][pluralSelector] = {}
-                targetLangPlurals.resolvedOptions().pluralCategories.forEach((e) => (targetLang[message][pluralSelector][e] = ''))
+                targetLangPluralRules[pluralType].resolvedOptions().pluralCategories.forEach((e: string) => (targetLang[message][pluralSelector][e] = ''))
+
                 sourceLang[message][pluralSelector] = {}
-                sourceLangPlurals.resolvedOptions().pluralCategories.forEach((e) => (sourceLang[message][pluralSelector][e] = ''))
+                sourceLangPluralRules[pluralType].resolvedOptions().pluralCategories.forEach((e: string) => (sourceLang[message][pluralSelector][e] = ''))
             }
 
             writeJSON(targetLangPath, targetLang)
@@ -68,16 +79,18 @@ const transtale = (
 
             for (var i = 0; i < pluralMatches.length; i++) {
                 var pluralSelector = pluralMatches[i].slice(2, -1)
+                var pluralNum: number | undefined = values[pluralSelector].value
+                var pluralType: string | undefined = values[pluralSelector].type
 
-                var pluralNum: number | undefined = values[pluralSelector]
+                if (pluralType == undefined) pluralType = 'cardinal'
 
                 if (pluralNum != undefined) {
-                    var targetPluralRule = targetLangPlurals.select(pluralNum)
+                    var targetPluralRule = targetLangPluralRules[pluralType].select(pluralNum)
 
                     if (targetLang[message][pluralSelector][targetPluralRule] == '') {
                         if (sourceLang == undefined) sourceLang = getJSON(sourceLangPath)
 
-                        var sourcePluralRule = sourceLangPlurals.select(pluralNum)
+                        var sourcePluralRule = sourceLangPluralRules[pluralType].select(pluralNum)
 
                         if (sourceLang[message][pluralSelector][sourcePluralRule] != '') {
                             var replacePluralString = sourceLang[message][pluralSelector][targetPluralRule].replace(pluralMatches[i], pluralNum.toString())
