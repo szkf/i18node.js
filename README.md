@@ -56,7 +56,7 @@ i18node.config({
     // default: /locales in the directory containing /node_modules
     directory: __dirname + '/locales',
 
-    // translation fallbacks for missing tranlsations
+    // translation fallbacks for missing translations
     // type: { string with BCP 47 language tag: string with BCP 47 language tag, ... }
     // default: {}
     fallbacks: { de: 'nl' },
