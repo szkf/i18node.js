@@ -257,7 +257,7 @@ i18node.t('You have #(orangeCount) oranges and #(melonCount) melon', { orangeCou
 ```json
 {
     "You have #(orangeCount) oranges and #(melonCount) melon": {
-        "full": "Du hast #(orageCount) und #(melonCount)",
+        "full": "Du hast #(orangeCount) und #(melonCount)",
         "orangeCount": {
             "one": "#(orangeCount) Orange",
             "other": "#(orangeCount) Orangen"
