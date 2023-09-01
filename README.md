@@ -15,7 +15,7 @@ _Until version i18node.js v1.0.0 this module should not be considered production
 ### Use as Singleton
 
 ```js
-const i18node = require('i18node.js') // import
+const i18node = require('i18node.js') // import i18node.js
 
 // configure
 i18node.config({ locales: ['de', 'en'], directory: __dirname + '/locales' })
@@ -26,7 +26,7 @@ Using singleton `i18node.js` will share the same configuration when imported in 
 ### Create an Instance
 
 ```js
-const { I18Node } = require('i18node.js') // import
+const { I18Node } = require('i18node.js') // import i18node.js
 
 // create new instance with configuration
 const i18node = new I18Node({ locales: ['en', 'pl'], directory: __dirname + '/locales' })
